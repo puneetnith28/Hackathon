@@ -135,7 +135,7 @@ const Search = () => {
           {loading ? (
             <div className="loading-spinner-small"></div>
           ) : (
-            <i className="fas fa-search"></i>
+            <i className="fas fa-search">Search</i>
           )}
         </button>
       </form>

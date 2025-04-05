@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css"; // Import Prism's CSS for styling
-import "./CodeEditor.css"; // Updated to match the correct CSS file
+import "prismjs/themes/prism.css";
+import "./CodeEditor.css";
 
 const CodeEditor = () => {
   const [code, setCode] = useState("");
 
   useEffect(() => {
-    Prism.highlightAll(); // Highlight code whenever it changes
+    Prism.highlightAll();
   }, [code]);
 
   const handleCodeChange = (event) => {
@@ -16,7 +16,6 @@ const CodeEditor = () => {
 
   const executeCode = async () => {
     try {
-      // Use a web worker or a safe execution environment for multiple languages
       const result = await executeInSandbox(code);
       alert(`🚀 Output: ${result}`);
     } catch (error) {
@@ -26,9 +25,8 @@ const CodeEditor = () => {
 
   const executeInSandbox = (code) => {
     return new Promise((resolve, reject) => {
-      // Simulate a futuristic code execution environment
-      const worker = new Worker("path/to/your/worker.js"); // Create a web worker for code execution
-      worker.postMessage(code); // Send code to the worker
+      const worker = new Worker("path/to/your/worker.js");
+      worker.postMessage(code);
 
       worker.onmessage = (event) => {
         if (event.data.error) {
@@ -56,8 +54,8 @@ const CodeEditor = () => {
         rows="15"
         placeholder="🚀 Type your code here... (supports multiple languages!)"
         className="code-input"
-        onCopy={(e) => e.preventDefault()} // Prevent copy
-        onPaste={(e) => e.preventDefault()} // Prevent paste
+        onCopy={(e) => e.preventDefault()}
+        onPaste={(e) => e.preventDefault()}
       />
       <button className="execute-button" onClick={executeCode}>
         🚀 Launch Code

@@ -11,7 +11,7 @@ const Notes = () => {
   const [messages, setMessages] = useState([
     {
       id: 0,
-      text: "🌟 Welcome to the Enchanted Portal! I'm your magical assistant, ready to help you on your coding journey. What mysteries shall we unravel today? 🌟",
+      text: "🌟 Welcome to the Our Portal! I'm your magical assistant, ready to help you on your coding journey. What mysteries shall we unravel today? 🌟",
       sender: "ai",
     },
   ]);
@@ -36,41 +36,42 @@ const Notes = () => {
       avatarRef.current.classList.add("casting-spell");
     }
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/ai/chat/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          message: inputText,
-          user_id: localStorage.getItem("user_id"),
-          channel: {
-            id: "web_chat",
-            name: "Magic Portal Interface",
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.local.REACT_APP_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful and playful AI assistant in a magical coding realm. Respond in an adventurous, slightly wizardly tone.",
           },
-          locale: "en-US",
-          timestamp: new Date().toISOString(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Quest failed! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.response) {
-        throw new Error("The magic scroll returned empty!");
-      }
-
-      const aiMessage = {
-        id: messages.length + 2,
-        text: data.response,
-        sender: "ai",
-      };
+          ...messages.map((msg) => ({
+            role: msg.sender === "user" ? "user" : "assistant",
+            content: msg.text,
+          })),
+          { role: "user", content: inputText },
+        ],
+        temperature: 0.7,
+        max_tokens: 500,
+      }),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`🧨 API call failed with status ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const aiMessage = {
+      id: messages.length + 2,
+      text: data.choices[0].message.content,
+      sender: "ai",
+    };
+    try {    
 
       if (data.suggestions?.length > 0) {
         const suggestionMessage = {
@@ -136,7 +137,7 @@ const Notes = () => {
 
             <button className="quest-btn glow-effect">
               <span className="quest-icon pulse">🔮</span>
-              <span>Spells</span>
+              <span>History</span>
             </button>
           </div>
         </div>

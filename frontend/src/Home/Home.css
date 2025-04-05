@@ -7,7 +7,7 @@
   min-height: calc(100vh - 300px);
   animation: fadeInUp 1s ease-in-out;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg,rgb(170, 155, 165) 0%,rgb(160, 101, 163) 100%);
 }
 
 .welcome-content {

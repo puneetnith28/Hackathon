@@ -60,7 +60,7 @@ const Navbar = () => {
           className="logo-container-nav"
           onClick={() => handleNavigation("/")}
         >
-          <img src={FirstLogo} alt="EduVerse" className="nav-logo" />
+          <img src={FirstLogo} alt="SkillPilot" className="nav-logo" />
           <p>SkillPilot</p>
         </div>
 
@@ -80,7 +80,7 @@ const Navbar = () => {
 
         <NavbarButton
           path="/notes"
-          label="EDURA"
+          label="Explore"
           onClick={() => handleNavigation("/notes")}
           isActive={isActive("/notes", location.pathname)}
         />
